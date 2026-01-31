@@ -1,3 +1,5 @@
+## Lab 1 Completion Write-up
+See: [fastapi_lab1_README](./fastapi_lab1_README.md)
 
 ---
 - Video Explanation: [FastAPI lab](https://www.youtube.com/watch?v=KReburHqRIQ&list=PLcS4TrUUc53LeKBIyXAaERFKBJ3dvc9GZ&index=4)
