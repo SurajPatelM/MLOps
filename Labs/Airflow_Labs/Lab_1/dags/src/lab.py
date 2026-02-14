@@ -1,10 +1,24 @@
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.cluster import KMeans
+from sklearn.mixture import GaussianMixture
+from sklearn.metrics import silhouette_score
+import numpy as np
 from kneed import KneeLocator
 import pickle
 import os
 import base64
+
+def _sample_X(X, max_rows=3000, seed=42):
+    """
+    Return a random subset of X (numpy array) to reduce memory/time.
+    """
+    n = len(X)
+    if n <= max_rows:
+        return X
+    rng = np.random.default_rng(seed)
+    idx = rng.choice(n, size=max_rows, replace=False)
+    return X[idx]
 
 def load_data():
     """
@@ -86,3 +100,88 @@ def load_model_elbow(filename: str, sse: list):
     except Exception:
         # if not numeric, still return a JSON-friendly version
         return pred.item() if hasattr(pred, "item") else pred
+    
+def train_kmeans_best(data_b64: str, model_filename: str = "kmeans.sav"):
+    data_bytes = base64.b64decode(data_b64)
+    X = pickle.loads(data_bytes)
+
+    Xs = _sample_X(X, max_rows=3000)  # <<< ADD THIS
+
+    best = {"k": None, "silhouette": -1.0}
+    best_model = None
+
+    for k in range(2, 11):
+        model = KMeans(n_clusters=k, init="random", n_init=10, max_iter=300, random_state=42)
+        labels = model.fit_predict(Xs)                 # <<< CHANGED
+        score = silhouette_score(Xs, labels)           # <<< CHANGED
+
+        if score > best["silhouette"]:
+            best = {"k": k, "silhouette": float(score)}
+            best_model = model
+
+    output_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "model")
+    os.makedirs(output_dir, exist_ok=True)
+    model_path = os.path.join(output_dir, model_filename)
+    with open(model_path, "wb") as f:
+        pickle.dump(best_model, f)
+
+    return {"model": model_filename, "best_k": best["k"], "silhouette": best["silhouette"]}
+
+
+def train_gmm_best(data_b64: str, model_filename: str = "gmm.sav"):
+    data_bytes = base64.b64decode(data_b64)
+    X = pickle.loads(data_bytes)
+
+    Xs = _sample_X(X, max_rows=3000)  # <<< ADD THIS
+
+    best = {"k": None, "silhouette": -1.0}
+    best_model = None
+
+    for k in range(2, 11):
+        model = GaussianMixture(n_components=k, random_state=42)
+        model.fit(Xs)                         # <<< CHANGED
+        labels = model.predict(Xs)            # <<< CHANGED
+
+        score = silhouette_score(Xs, labels)  # <<< CHANGED
+        if score > best["silhouette"]:
+            best = {"k": k, "silhouette": float(score)}
+            best_model = model
+
+    output_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "model")
+    os.makedirs(output_dir, exist_ok=True)
+    model_path = os.path.join(output_dir, model_filename)
+    with open(model_path, "wb") as f:
+        pickle.dump(best_model, f)
+
+    return {"model": model_filename, "best_k": best["k"], "silhouette": best["silhouette"]}
+
+def write_predictions_csv(data_b64: str, kmeans_info: dict, gmm_info: dict, out_csv: str = "cluster_predictions.csv"):
+    data_bytes = base64.b64decode(data_b64)
+    X = pickle.loads(data_bytes)
+    X = _sample_X(X, max_rows=5000)
+
+    model_dir = os.path.join(os.path.dirname(__file__), "../model")
+    kmeans = pickle.load(open(os.path.join(model_dir, kmeans_info["model"]), "rb"))
+    gmm = pickle.load(open(os.path.join(model_dir, gmm_info["model"]), "rb"))
+
+    kmeans_labels = kmeans.predict(X)
+    gmm_labels = gmm.predict(X)
+
+    df_out = pd.DataFrame({
+        "row_id": list(range(len(X))),
+        "kmeans_cluster": kmeans_labels,
+        "gmm_cluster": gmm_labels
+    })
+
+    out_path = os.path.join("/opt/airflow/working_data", out_csv)
+    df_out.to_csv(out_path, index=False)
+
+    return {
+        "output_csv": out_csv,
+        "kmeans_best_k": kmeans_info["best_k"],
+        "kmeans_silhouette": kmeans_info["silhouette"],
+        "gmm_best_k": gmm_info["best_k"],
+        "gmm_silhouette": gmm_info["silhouette"],
+        "saved_to": out_path
+    }
+
