@@ -170,7 +170,7 @@ docker compose down -v
 
 You may see: *"Not enough memory available for Docker"*
 
-If Airflow still runs and tasks complete, it is OK for the lab. Otherwise, increase Docker Desktop memory (Settings → Resources).
+If Airflow still runs and tasks complete. Otherwise, increase Docker Desktop memory (Settings → Resources).
 
 ---
 
