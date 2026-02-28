@@ -1,0 +1,501 @@
+
+############################################################
+# Run: 2026-02-27 21:23:53
+# Mode: all
+# Args: {'mode': 'all', 'data_path': './data/breast_cancer_data.csv', 'test_size': 0.2, 'corr_threshold': 0.2, 'intercorr_threshold': 0.9, 'k_best': 20, 'rfe_n_features': 20, 'importance_threshold': 0.013, 'l1_C': 1.0, 'output_file': 'results.txt', 'plot_dir': './plots', 'seed': 42}
+############################################################
+Loading dataset...
+  Shape: (569, 31) | Features: 30 | Target distribution: {0: np.int64(357), 1: np.int64(212)}
+
+>>> [BASELINE] Training with all features...
+
+=======================================================
+ BASELINE (All Features)
+=======================================================
+  Accuracy    : 0.9649
+  ROC AUC     : 0.9673
+  Precision   : 0.9318
+  Recall      : 0.9762
+  F1 Score    : 0.9535
+  Features    : 30
+
+    Saved: ./plots/correlation_full.png
+
+>>> [FILTER] Correlation with target (threshold=0.2)...
+    Selected 25 features
+
+=======================================================
+ FILTER — Correlation (threshold=0.2)
+=======================================================
+  Accuracy    : 0.9737
+  ROC AUC     : 0.9742
+  Precision   : 0.9535
+  Recall      : 0.9762
+  F1 Score    : 0.9647
+  Features    : 25
+
+
+>>> [FILTER] Removing inter-correlated features (threshold=0.9)...
+    Removed 10 features: ['perimeter_mean', 'area_mean', 'concave points_mean', 'perimeter_se', 'area_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'concave points_worst']
+    Remaining: 15 features
+
+=======================================================
+ FILTER — Remove Inter-correlated (>0.9)
+=======================================================
+  Accuracy    : 0.9298
+  ROC AUC     : 0.9395
+  Precision   : 0.8542
+  Recall      : 0.9762
+  F1 Score    : 0.9111
+  Features    : 15
+
+
+>>> [FILTER] Univariate F-test (k=20)...
+    Selected features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 'radius_se', 'perimeter_se', 'area_se', 'concave points_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 'compactness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst']
+
+=======================================================
+ FILTER — F-test (k=20)
+=======================================================
+  Accuracy    : 0.9737
+  ROC AUC     : 0.9742
+  Precision   : 0.9535
+  Recall      : 0.9762
+  F1 Score    : 0.9647
+  Features    : 20
+
+
+>>> [FILTER] Chi-squared (k=20)...
+    Selected features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 'radius_se', 'perimeter_se', 'area_se', 'compactness_se', 'concave points_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'compactness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst']
+
+=======================================================
+ FILTER — Chi-squared (k=20)
+=======================================================
+  Accuracy    : 0.9561
+  ROC AUC     : 0.9603
+  Precision   : 0.9111
+  Recall      : 0.9762
+  F1 Score    : 0.9425
+  Features    : 20
+
+
+>>> [FILTER] Mutual Information (k=20)...
+    Selected features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 'radius_se', 'perimeter_se', 'area_se', 'concavity_se', 'concave points_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 'compactness_worst', 'concavity_worst', 'concave points_worst']
+
+=======================================================
+ FILTER — Mutual Information (k=20)
+=======================================================
+  Accuracy    : 0.9737
+  ROC AUC     : 0.9742
+  Precision   : 0.9535
+  Recall      : 0.9762
+  F1 Score    : 0.9647
+  Features    : 20
+
+
+>>> [WRAPPER] RFE (n_features=20)...
+    Selected features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 'perimeter_se', 'area_se', 'concavity_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 'compactness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst', 'fractal_dimension_worst']
+
+=======================================================
+ WRAPPER — RFE (n=20)
+=======================================================
+  Accuracy    : 0.9649
+  ROC AUC     : 0.9673
+  Precision   : 0.9318
+  Recall      : 0.9762
+  F1 Score    : 0.9535
+  Features    : 20
+
+
+>>> [EMBEDDED] Feature Importance (threshold=0.013)...
+    Saved: ./plots/feature_importances.png
+    Selected 14 features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'concavity_mean', 'concave points_mean', 'radius_se', 'area_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'concavity_worst', 'concave points_worst']
+
+=======================================================
+ EMBEDDED — Feature Importance (>0.013)
+=======================================================
+  Accuracy    : 0.9649
+  ROC AUC     : 0.9673
+  Precision   : 0.9318
+  Recall      : 0.9762
+  F1 Score    : 0.9535
+  Features    : 14
+
+
+>>> [EMBEDDED] L1 Regularization — LinearSVC (C=1.0)...
+    Selected 18 features: ['compactness_mean', 'concavity_mean', 'symmetry_mean', 'radius_se', 'texture_se', 'area_se', 'smoothness_se', 'compactness_se', 'concave points_se', 'symmetry_se', 'fractal_dimension_se', 'radius_worst', 'texture_worst', 'smoothness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst', 'fractal_dimension_worst']
+
+=======================================================
+ EMBEDDED — L1 Reg / LinearSVC (C=1.0)
+=======================================================
+  Accuracy    : 0.9298
+  ROC AUC     : 0.9296
+  Precision   : 0.8864
+  Recall      : 0.9286
+  F1 Score    : 0.9070
+  Features    : 18
+
+
+>>> [EMBEDDED] Lasso Regularization — LogisticRegression (C=1.0)...
+    Selected 15 features: ['texture_mean', 'concavity_mean', 'fractal_dimension_mean', 'radius_se', 'texture_se', 'smoothness_se', 'compactness_se', 'fractal_dimension_se', 'radius_worst', 'texture_worst', 'area_worst', 'smoothness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst']
+
+=======================================================
+ EMBEDDED — Lasso / LogisticRegression (C=1.0)
+=======================================================
+  Accuracy    : 0.9474
+  ROC AUC     : 0.9534
+  Precision   : 0.8913
+  Recall      : 0.9762
+  F1 Score    : 0.9318
+  Features    : 15
+
+
+================================================================================
+ SUMMARY — All Methods Compared
+================================================================================
+  Method                     Acc     ROC    Prec     Rec      F1  #Feat
+  ────────────────────────────────────────────────────────────────────
+  All Features            0.9649  0.9673  0.9318  0.9762  0.9535     30
+  Corr w/ Target          0.9737  0.9742  0.9535  0.9762  0.9647     25
+  Remove Intercorr        0.9298  0.9395  0.8542  0.9762  0.9111     15
+  F-test                  0.9737  0.9742  0.9535  0.9762  0.9647     20
+  Chi-squared             0.9561  0.9603  0.9111  0.9762  0.9425     20
+  Mutual Info             0.9737  0.9742  0.9535  0.9762  0.9647     20
+  RFE                     0.9649  0.9673  0.9318  0.9762  0.9535     20
+  Feature Importance      0.9649  0.9673  0.9318  0.9762  0.9535     14
+  L1 Reg (SVC)            0.9298  0.9296  0.8864  0.9286  0.9070     18
+  Lasso (LR)              0.9474  0.9534  0.8913  0.9762  0.9318     15
+
+
+############################################################
+# Run: 2026-02-27 21:25:12
+# Mode: all
+# Args: {'mode': 'all', 'data_path': './data/breast_cancer_data.csv', 'test_size': 0.2, 'corr_threshold': 0.2, 'intercorr_threshold': 0.95, 'k_best': 20, 'rfe_n_features': 20, 'importance_threshold': 0.013, 'l1_C': 1.0, 'output_file': 'results.txt', 'plot_dir': './plots', 'seed': 42}
+############################################################
+Loading dataset...
+  Shape: (569, 31) | Features: 30 | Target distribution: {0: np.int64(357), 1: np.int64(212)}
+
+>>> [BASELINE] Training with all features...
+
+=======================================================
+ BASELINE (All Features)
+=======================================================
+  Accuracy    : 0.9649
+  ROC AUC     : 0.9673
+  Precision   : 0.9318
+  Recall      : 0.9762
+  F1 Score    : 0.9535
+  Features    : 30
+
+    Saved: ./plots/correlation_full.png
+
+>>> [FILTER] Correlation with target (threshold=0.2)...
+    Selected 25 features
+
+=======================================================
+ FILTER — Correlation (threshold=0.2)
+=======================================================
+  Accuracy    : 0.9737
+  ROC AUC     : 0.9742
+  Precision   : 0.9535
+  Recall      : 0.9762
+  F1 Score    : 0.9647
+  Features    : 25
+
+
+>>> [FILTER] Removing inter-correlated features (threshold=0.95)...
+    Removed 7 features: ['perimeter_mean', 'area_mean', 'perimeter_se', 'area_se', 'radius_worst', 'perimeter_worst', 'area_worst']
+    Remaining: 18 features
+
+=======================================================
+ FILTER — Remove Inter-correlated (>0.95)
+=======================================================
+  Accuracy    : 0.9474
+  ROC AUC     : 0.9484
+  Precision   : 0.9091
+  Recall      : 0.9524
+  F1 Score    : 0.9302
+  Features    : 18
+
+
+>>> [FILTER] Univariate F-test (k=20)...
+    Selected features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 'radius_se', 'perimeter_se', 'area_se', 'concave points_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 'compactness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst']
+
+=======================================================
+ FILTER — F-test (k=20)
+=======================================================
+  Accuracy    : 0.9737
+  ROC AUC     : 0.9742
+  Precision   : 0.9535
+  Recall      : 0.9762
+  F1 Score    : 0.9647
+  Features    : 20
+
+
+>>> [FILTER] Chi-squared (k=20)...
+    Selected features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 'radius_se', 'perimeter_se', 'area_se', 'compactness_se', 'concave points_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'compactness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst']
+
+=======================================================
+ FILTER — Chi-squared (k=20)
+=======================================================
+  Accuracy    : 0.9561
+  ROC AUC     : 0.9603
+  Precision   : 0.9111
+  Recall      : 0.9762
+  F1 Score    : 0.9425
+  Features    : 20
+
+
+>>> [FILTER] Mutual Information (k=20)...
+    Selected features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 'radius_se', 'perimeter_se', 'area_se', 'concavity_se', 'concave points_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 'compactness_worst', 'concavity_worst', 'concave points_worst']
+
+=======================================================
+ FILTER — Mutual Information (k=20)
+=======================================================
+  Accuracy    : 0.9737
+  ROC AUC     : 0.9742
+  Precision   : 0.9535
+  Recall      : 0.9762
+  F1 Score    : 0.9647
+  Features    : 20
+
+
+>>> [WRAPPER] RFE (n_features=20)...
+    Selected features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 'perimeter_se', 'area_se', 'concavity_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 'compactness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst', 'fractal_dimension_worst']
+
+=======================================================
+ WRAPPER — RFE (n=20)
+=======================================================
+  Accuracy    : 0.9649
+  ROC AUC     : 0.9673
+  Precision   : 0.9318
+  Recall      : 0.9762
+  F1 Score    : 0.9535
+  Features    : 20
+
+
+>>> [EMBEDDED] Feature Importance (threshold=0.013)...
+    Saved: ./plots/feature_importances.png
+    Selected 14 features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'concavity_mean', 'concave points_mean', 'radius_se', 'area_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'concavity_worst', 'concave points_worst']
+
+=======================================================
+ EMBEDDED — Feature Importance (>0.013)
+=======================================================
+  Accuracy    : 0.9649
+  ROC AUC     : 0.9673
+  Precision   : 0.9318
+  Recall      : 0.9762
+  F1 Score    : 0.9535
+  Features    : 14
+
+
+>>> [EMBEDDED] L1 Regularization — LinearSVC (C=1.0)...
+    Selected 18 features: ['compactness_mean', 'concavity_mean', 'symmetry_mean', 'radius_se', 'texture_se', 'area_se', 'smoothness_se', 'compactness_se', 'concave points_se', 'symmetry_se', 'fractal_dimension_se', 'radius_worst', 'texture_worst', 'smoothness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst', 'fractal_dimension_worst']
+
+=======================================================
+ EMBEDDED — L1 Reg / LinearSVC (C=1.0)
+=======================================================
+  Accuracy    : 0.9298
+  ROC AUC     : 0.9296
+  Precision   : 0.8864
+  Recall      : 0.9286
+  F1 Score    : 0.9070
+  Features    : 18
+
+
+>>> [EMBEDDED] Lasso Regularization — LogisticRegression (C=1.0)...
+    Selected 15 features: ['texture_mean', 'concavity_mean', 'fractal_dimension_mean', 'radius_se', 'texture_se', 'smoothness_se', 'compactness_se', 'fractal_dimension_se', 'radius_worst', 'texture_worst', 'area_worst', 'smoothness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst']
+
+=======================================================
+ EMBEDDED — Lasso / LogisticRegression (C=1.0)
+=======================================================
+  Accuracy    : 0.9474
+  ROC AUC     : 0.9534
+  Precision   : 0.8913
+  Recall      : 0.9762
+  F1 Score    : 0.9318
+  Features    : 15
+
+
+================================================================================
+ SUMMARY — All Methods Compared
+================================================================================
+  Method                     Acc     ROC    Prec     Rec      F1  #Feat
+  ────────────────────────────────────────────────────────────────────
+  All Features            0.9649  0.9673  0.9318  0.9762  0.9535     30
+  Corr w/ Target          0.9737  0.9742  0.9535  0.9762  0.9647     25
+  Remove Intercorr        0.9474  0.9484  0.9091  0.9524  0.9302     18
+  F-test                  0.9737  0.9742  0.9535  0.9762  0.9647     20
+  Chi-squared             0.9561  0.9603  0.9111  0.9762  0.9425     20
+  Mutual Info             0.9737  0.9742  0.9535  0.9762  0.9647     20
+  RFE                     0.9649  0.9673  0.9318  0.9762  0.9535     20
+  Feature Importance      0.9649  0.9673  0.9318  0.9762  0.9535     14
+  L1 Reg (SVC)            0.9298  0.9296  0.8864  0.9286  0.9070     18
+  Lasso (LR)              0.9474  0.9534  0.8913  0.9762  0.9318     15
+
+
+############################################################
+# Run: 2026-02-27 21:26:18
+# Mode: all
+# Args: {'mode': 'all', 'data_path': './data/breast_cancer_data.csv', 'test_size': 0.2, 'corr_threshold': 0.2, 'intercorr_threshold': 0.9, 'k_best': 20, 'rfe_n_features': 20, 'importance_threshold': 0.013, 'l1_C': 1.0, 'output_file': 'results.txt', 'plot_dir': './plots', 'seed': 42}
+############################################################
+Loading dataset...
+  Shape: (569, 31) | Features: 30 | Target distribution: {0: np.int64(357), 1: np.int64(212)}
+
+>>> [BASELINE] Training with all features...
+
+=======================================================
+ BASELINE (All Features)
+=======================================================
+  Accuracy    : 0.9649
+  ROC AUC     : 0.9673
+  Precision   : 0.9318
+  Recall      : 0.9762
+  F1 Score    : 0.9535
+  Features    : 30
+
+    Saved: ./plots/correlation_full.png
+
+>>> [FILTER] Correlation with target (threshold=0.2)...
+    Selected 25 features
+
+=======================================================
+ FILTER — Correlation (threshold=0.2)
+=======================================================
+  Accuracy    : 0.9737
+  ROC AUC     : 0.9742
+  Precision   : 0.9535
+  Recall      : 0.9762
+  F1 Score    : 0.9647
+  Features    : 25
+
+
+>>> [FILTER] Removing inter-correlated features (threshold=0.9)...
+    Removed 10 features: ['perimeter_mean', 'area_mean', 'concave points_mean', 'perimeter_se', 'area_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'concave points_worst']
+    Remaining: 15 features
+
+=======================================================
+ FILTER — Remove Inter-correlated (>0.9)
+=======================================================
+  Accuracy    : 0.9298
+  ROC AUC     : 0.9395
+  Precision   : 0.8542
+  Recall      : 0.9762
+  F1 Score    : 0.9111
+  Features    : 15
+
+
+>>> [FILTER] Univariate F-test (k=20)...
+    Selected features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 'radius_se', 'perimeter_se', 'area_se', 'concave points_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 'compactness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst']
+
+=======================================================
+ FILTER — F-test (k=20)
+=======================================================
+  Accuracy    : 0.9737
+  ROC AUC     : 0.9742
+  Precision   : 0.9535
+  Recall      : 0.9762
+  F1 Score    : 0.9647
+  Features    : 20
+
+
+>>> [FILTER] Chi-squared (k=20)...
+    Selected features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 'radius_se', 'perimeter_se', 'area_se', 'compactness_se', 'concave points_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'compactness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst']
+
+=======================================================
+ FILTER — Chi-squared (k=20)
+=======================================================
+  Accuracy    : 0.9561
+  ROC AUC     : 0.9603
+  Precision   : 0.9111
+  Recall      : 0.9762
+  F1 Score    : 0.9425
+  Features    : 20
+
+
+>>> [FILTER] Mutual Information (k=20)...
+    Selected features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 'radius_se', 'perimeter_se', 'area_se', 'concavity_se', 'concave points_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 'compactness_worst', 'concavity_worst', 'concave points_worst']
+
+=======================================================
+ FILTER — Mutual Information (k=20)
+=======================================================
+  Accuracy    : 0.9737
+  ROC AUC     : 0.9742
+  Precision   : 0.9535
+  Recall      : 0.9762
+  F1 Score    : 0.9647
+  Features    : 20
+
+
+>>> [WRAPPER] RFE (n_features=20)...
+    Selected features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 'perimeter_se', 'area_se', 'concavity_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 'compactness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst', 'fractal_dimension_worst']
+
+=======================================================
+ WRAPPER — RFE (n=20)
+=======================================================
+  Accuracy    : 0.9649
+  ROC AUC     : 0.9673
+  Precision   : 0.9318
+  Recall      : 0.9762
+  F1 Score    : 0.9535
+  Features    : 20
+
+
+>>> [EMBEDDED] Feature Importance (threshold=0.013)...
+    Saved: ./plots/feature_importances.png
+    Selected 14 features: ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'concavity_mean', 'concave points_mean', 'radius_se', 'area_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'concavity_worst', 'concave points_worst']
+
+=======================================================
+ EMBEDDED — Feature Importance (>0.013)
+=======================================================
+  Accuracy    : 0.9649
+  ROC AUC     : 0.9673
+  Precision   : 0.9318
+  Recall      : 0.9762
+  F1 Score    : 0.9535
+  Features    : 14
+
+
+>>> [EMBEDDED] L1 Regularization — LinearSVC (C=1.0)...
+    Selected 18 features: ['compactness_mean', 'concavity_mean', 'symmetry_mean', 'radius_se', 'texture_se', 'area_se', 'smoothness_se', 'compactness_se', 'concave points_se', 'symmetry_se', 'fractal_dimension_se', 'radius_worst', 'texture_worst', 'smoothness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst', 'fractal_dimension_worst']
+
+=======================================================
+ EMBEDDED — L1 Reg / LinearSVC (C=1.0)
+=======================================================
+  Accuracy    : 0.9298
+  ROC AUC     : 0.9296
+  Precision   : 0.8864
+  Recall      : 0.9286
+  F1 Score    : 0.9070
+  Features    : 18
+
+
+>>> [EMBEDDED] Lasso Regularization — LogisticRegression (C=1.0)...
+    Selected 15 features: ['texture_mean', 'concavity_mean', 'fractal_dimension_mean', 'radius_se', 'texture_se', 'smoothness_se', 'compactness_se', 'fractal_dimension_se', 'radius_worst', 'texture_worst', 'area_worst', 'smoothness_worst', 'concavity_worst', 'concave points_worst', 'symmetry_worst']
+
+=======================================================
+ EMBEDDED — Lasso / LogisticRegression (C=1.0)
+=======================================================
+  Accuracy    : 0.9474
+  ROC AUC     : 0.9534
+  Precision   : 0.8913
+  Recall      : 0.9762
+  F1 Score    : 0.9318
+  Features    : 15
+
+
+================================================================================
+ SUMMARY — All Methods Compared
+================================================================================
+  Method                     Acc     ROC    Prec     Rec      F1  #Feat
+  ────────────────────────────────────────────────────────────────────
+  All Features            0.9649  0.9673  0.9318  0.9762  0.9535     30
+  Corr w/ Target          0.9737  0.9742  0.9535  0.9762  0.9647     25
+  Remove Intercorr        0.9298  0.9395  0.8542  0.9762  0.9111     15
+  F-test                  0.9737  0.9742  0.9535  0.9762  0.9647     20
+  Chi-squared             0.9561  0.9603  0.9111  0.9762  0.9425     20
+  Mutual Info             0.9737  0.9742  0.9535  0.9762  0.9647     20
+  RFE                     0.9649  0.9673  0.9318  0.9762  0.9535     20
+  Feature Importance      0.9649  0.9673  0.9318  0.9762  0.9535     14
+  L1 Reg (SVC)            0.9298  0.9296  0.8864  0.9286  0.9070     18
+  Lasso (LR)              0.9474  0.9534  0.8913  0.9762  0.9318     15
+
