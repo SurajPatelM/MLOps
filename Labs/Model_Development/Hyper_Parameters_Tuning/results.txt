@@ -1,0 +1,176 @@
+
+############################################################
+# Run: 2026-02-27 20:15:24
+# Mode: all
+# Args: {'mode': 'all', 'epochs': 10, 'batch_size': 64, 'validation_split': 0.2, 'early_stop_patience': 5, 'kt_strategy': ['hyperband', 'random', 'bayesian'], 'kt_factor': 3, 'kt_max_epochs': 10, 'kt_max_trials': 20, 'kt_overwrite': False, 'n_trials': 20, 'units_min': 32, 'units_max': 512, 'units_step': 32, 'lr_choices': [0.01, 0.001, 0.0001], 'dropout_min': 0.1, 'dropout_max': 0.5, 'output_file': 'results.txt', 'log_dir': './tb_logs', 'seed': 42}
+############################################################
+Loading Fashion MNIST dataset...
+
+>>> [BASELINE] Training with hardcoded hyperparameters...
+
+==================================================
+ BASELINE MODEL
+==================================================
+  units: 512
+  learning_rate: 0.001
+  dropout: 0.2
+  activation: relu
+  ────────────────────────────────────────
+  accuracy: 0.8783
+  loss: 0.3542
+
+
+>>> [KERAS TUNER - HYPERBAND] Starting search...
+    Search space:
+      units : [32, 512] step 32
+      lr    : [0.01, 0.001, 0.0001]
+    Best units: 512
+    Best learning rate: 0.001
+
+>>> [KERAS TUNER - HYPERBAND] Retraining best model...
+
+==================================================
+ KERAS TUNER - HYPERBAND
+==================================================
+  units: 512
+  learning_rate: 0.001
+  dropout: 0.2
+  ────────────────────────────────────────
+  accuracy: 0.8779
+  loss: 0.3436
+
+
+>>> [KERAS TUNER - RANDOM] Starting search...
+    Search space:
+      units : [32, 512] step 32
+      lr    : [0.01, 0.001, 0.0001]
+    Best units: 320
+    Best learning rate: 0.001
+
+>>> [KERAS TUNER - RANDOM] Retraining best model...
+
+==================================================
+ KERAS TUNER - RANDOM
+==================================================
+  units: 320
+  learning_rate: 0.001
+  dropout: 0.2
+  ────────────────────────────────────────
+  accuracy: 0.8808
+  loss: 0.3383
+
+
+>>> [KERAS TUNER - BAYESIAN] Starting search...
+    Search space:
+      units : [32, 512] step 32
+      lr    : [0.01, 0.001, 0.0001]
+
+############################################################
+# Run: 2026-02-27 20:26:23
+# Mode: all
+# Args: {'mode': 'all', 'epochs': 10, 'batch_size': 64, 'validation_split': 0.2, 'early_stop_patience': 5, 'kt_strategy': ['hyperband', 'random', 'bayesian'], 'kt_factor': 3, 'kt_max_epochs': 10, 'kt_max_trials': 20, 'kt_overwrite': False, 'n_trials': 20, 'units_min': 32, 'units_max': 512, 'units_step': 32, 'lr_choices': [0.01, 0.001, 0.0001], 'dropout_min': 0.1, 'dropout_max': 0.5, 'output_file': 'results.txt', 'log_dir': './tb_logs', 'seed': 42}
+############################################################
+Loading Fashion MNIST dataset...
+
+>>> [BASELINE] Training with hardcoded hyperparameters...
+
+==================================================
+ BASELINE MODEL
+==================================================
+  units: 512
+  learning_rate: 0.001
+  dropout: 0.2
+  activation: relu
+  ────────────────────────────────────────
+  accuracy: 0.8802
+  loss: 0.3403
+
+
+>>> [KERAS TUNER - HYPERBAND] Starting search...
+    Search space:
+      units : [32, 512] step 32
+      lr    : [0.01, 0.001, 0.0001]
+    Best units: 512
+    Best learning rate: 0.001
+
+>>> [KERAS TUNER - HYPERBAND] Retraining best model...
+
+==================================================
+ KERAS TUNER - HYPERBAND
+==================================================
+  units: 512
+  learning_rate: 0.001
+  dropout: 0.2
+  ────────────────────────────────────────
+  accuracy: 0.8804
+  loss: 0.3467
+
+
+>>> [KERAS TUNER - RANDOM] Starting search...
+    Search space:
+      units : [32, 512] step 32
+      lr    : [0.01, 0.001, 0.0001]
+    Best units: 320
+    Best learning rate: 0.001
+
+>>> [KERAS TUNER - RANDOM] Retraining best model...
+
+==================================================
+ KERAS TUNER - RANDOM
+==================================================
+  units: 320
+  learning_rate: 0.001
+  dropout: 0.2
+  ────────────────────────────────────────
+  accuracy: 0.8748
+  loss: 0.3449
+
+
+>>> [KERAS TUNER - BAYESIAN] Starting search...
+    Search space:
+      units : [32, 512] step 32
+      lr    : [0.01, 0.001, 0.0001]
+    Best units: 512
+    Best learning rate: 0.001
+
+>>> [KERAS TUNER - BAYESIAN] Retraining best model...
+
+==================================================
+ KERAS TUNER - BAYESIAN
+==================================================
+  units: 512
+  learning_rate: 0.001
+  dropout: 0.2
+  ────────────────────────────────────────
+  accuracy: 0.8825
+  loss: 0.3410
+
+
+>>> [OPTUNA] Starting TPE search (20 trials)...
+    Search space:
+      units      : [32, 512] step 32
+      lr         : [0.01, 0.001, 0.0001]
+      dropout    : [0.1, 0.5]
+      activation : [relu, tanh, selu]
+
+    Best trial    : 19
+    Best val_acc  : 0.8898
+    Best units: 352
+    Best learning_rate: 0.001
+    Best dropout_rate: 0.1
+    Best activation: relu
+    Completed: 12 | Pruned: 8
+
+>>> [OPTUNA] Retraining best model...
+
+==================================================
+ OPTUNA TPE MODEL
+==================================================
+  units: 352
+  learning_rate: 0.001
+  dropout_rate: 0.1
+  activation: relu
+  ────────────────────────────────────────
+  accuracy: 0.8760
+  loss: 0.3459
+
