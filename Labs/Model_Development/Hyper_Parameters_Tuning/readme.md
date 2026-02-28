@@ -1,5 +1,7 @@
 # Hyperparameter Optimization Lab — IE7374
 
+> **Important:** The original `Keras_Tuner.ipynb` notebook has not been modified. All changes, additions, and experiments are contained entirely in the new `hpo_fashion_mnist.py` script. The notebook is included as-is for reference.
+
 ## Overview
 
 This lab explores hyperparameter optimization (HPO) for a Fashion MNIST image classification model. Starting from the original Keras Tuner notebook provided in class, the lab was restructured into a single configurable Python script that compares **five HPO approaches** side by side:
@@ -13,7 +15,7 @@ This lab explores hyperparameter optimization (HPO) for a Fashion MNIST image cl
 ## Changes from the Original Lab Notebook
 
 ### 1. Converted Notebook to Python Script
-The original `Keras_Tuner.ipynb` was converted into a standalone `hpo_fashion_mnist.py` script that can be run from the command line with configurable arguments.
+The original `Keras_Tuner.ipynb` was used as a reference to create a new standalone `hpo_fashion_mnist.py` script that can be run from the command line with configurable arguments. No changes were made to the original notebook.
 
 ### 2. Added All Keras Tuner Strategies
 The original notebook only used **Hyperband**. The script now includes all three relevant Keras Tuner strategies mentioned in the lab: **Hyperband**, **RandomSearch**, and **BayesianOptimization**. Each runs sequentially using the same model builder and search space for fair comparison.
@@ -47,7 +49,6 @@ Each pipeline and trial logs to separate TensorBoard subdirectories under `./tb_
 
 ```
 Hyper_Parameters_Tuning/
-├── Keras_Tuner.ipynb 
 ├── hpo_fashion_mnist.py    # Main script (baseline + Keras Tuner + Optuna)
 ├── requirements.txt        # Dependencies
 ├── results.txt             # Experiment results (auto-generated)
