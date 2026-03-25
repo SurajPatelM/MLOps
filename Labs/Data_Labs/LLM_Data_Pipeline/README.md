@@ -2,6 +2,8 @@
 
 This lab implements a data preparation pipeline for training a causal language model using the WikiText-2 dataset and the GPT-2 tokenizer. The goal is to convert raw text data into fixed-length token sequences suitable for training language models.
 
+**Main lab file:** The runnable pipeline and the code you edit for this lab live in [`Labs/Data_Labs/LLM_Data_Pipeline/data_pipeline_lab1.py`](data_pipeline_lab1.py) (same directory as this README).
+
 ## Enhancements Over the Base Lab
 
 The original lab notebook was extended with several improvements to make the pipeline more robust, modular, and informative.
