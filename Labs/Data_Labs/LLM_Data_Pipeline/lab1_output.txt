@@ -1,0 +1,82 @@
+Loading WikiText-2 dataset...
+Original number of rows: 36718
+Number of rows after cleaning: 23767
+Train rows: 21390
+Validation rows: 2377
+
+Loading tokenizer: gpt2
+
+Generating plots...
+
+train token statistics:
+Min length: 1
+Max length: 785
+Average length: 98.53
+
+validation token statistics:
+Min length: 1
+Max length: 841
+Average length: 100.75
+
+Tokenizing datasets...
+
+Grouping tokens into blocks of size 128...
+Number of train sequences: 16456
+Number of validation sequences: 1869
+
+Checking one batch from train DataLoader...
+Train batch keys: KeysView({'input_ids': tensor([[ 7439,  8621,   377,  ...,  6184,   246, 11338],
+        [22483,   764,  1550,  ...,  8722,   287, 11749],
+        [  262, 37637,    82,  ..., 47953,  3073,   329],
+        ...,
+        [  318,  3599,   284,  ..., 12923, 41432,   287],
+        [ 5963,   284,   262,  ...,   262,   749,   837],
+        [  262, 14069,  2351,  ...,   262,  1315,   400]]), 'attention_mask': tensor([[1, 1, 1,  ..., 1, 1, 1],
+        [1, 1, 1,  ..., 1, 1, 1],
+        [1, 1, 1,  ..., 1, 1, 1],
+        ...,
+        [1, 1, 1,  ..., 1, 1, 1],
+        [1, 1, 1,  ..., 1, 1, 1],
+        [1, 1, 1,  ..., 1, 1, 1]]), 'labels': tensor([[ 7439,  8621,   377,  ...,  6184,   246, 11338],
+        [22483,   764,  1550,  ...,  8722,   287, 11749],
+        [  262, 37637,    82,  ..., 47953,  3073,   329],
+        ...,
+        [  318,  3599,   284,  ..., 12923, 41432,   287],
+        [ 5963,   284,   262,  ...,   262,   749,   837],
+        [  262, 14069,  2351,  ...,   262,  1315,   400]])})
+Train input_ids shape: torch.Size([8, 128])
+Train labels shape: torch.Size([8, 128])
+Train attention_mask shape: torch.Size([8, 128])
+
+Checking one batch from validation DataLoader...
+Validation batch keys: KeysView({'input_ids': tensor([[  464,  4074,   705,  ...,   287,  1267,  9581],
+        [ 6541,   329,  4560,  ...,  1223,   287,  1022],
+        [ 1595,   705,    83,  ...,   705,    83,   345],
+        ...,
+        [ 3706,   262,  1074,  ...,  1119,   547,  3170],
+        [  416,  5795,   739,  ...,   796,   796,    28],
+        [  796,  7443,   796,  ..., 17662,   355,  8867]]), 'attention_mask': tensor([[1, 1, 1,  ..., 1, 1, 1],
+        [1, 1, 1,  ..., 1, 1, 1],
+        [1, 1, 1,  ..., 1, 1, 1],
+        ...,
+        [1, 1, 1,  ..., 1, 1, 1],
+        [1, 1, 1,  ..., 1, 1, 1],
+        [1, 1, 1,  ..., 1, 1, 1]]), 'labels': tensor([[  464,  4074,   705,  ...,   287,  1267,  9581],
+        [ 6541,   329,  4560,  ...,  1223,   287,  1022],
+        [ 1595,   705,    83,  ...,   705,    83,   345],
+        ...,
+        [ 3706,   262,  1074,  ...,  1119,   547,  3170],
+        [  416,  5795,   739,  ...,   796,   796,    28],
+        [  796,  7443,   796,  ..., 17662,   355,  8867]])})
+Validation input_ids shape: torch.Size([8, 128])
+Validation labels shape: torch.Size([8, 128])
+Validation attention_mask shape: torch.Size([8, 128])
+
+Decoded sample from train batch:
+ Holy Sepulchre ) returned to Italy , forcing the papal troops to withdraw .The Hamar @-@ based newspaper Demokraten ( " The Democrat " ) was started on 15 September 1909 . The initiator and first editor was Olav Kringen , who had ample experience as the editor of Social @-@ Demokraten from 1903 until 1906 . Demokraten was the Labour Party organ for the Mjøsa Cities and Hedemarken , but in its first years it also covered Gudbrandsdalen and Østerdalen , two northern regions . The name Østop
+
+Lab 1 pipeline completed successfully.
+Saved plots:
+- dataset_split_sizes.png
+- train_token_length_distribution.png
+- validation_token_length_distribution.png
