@@ -1,4 +1,4 @@
-# Lab 1 – Language Model Data Preparation Pipeline
+# Lab Assignment 5 – Language Model Data Preparation Pipeline
 
 This lab implements a data preparation pipeline for training a causal language model using the WikiText-2 dataset and the GPT-2 tokenizer. The goal is to convert raw text data into fixed-length token sequences suitable for training language models.
 
