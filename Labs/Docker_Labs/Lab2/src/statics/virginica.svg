@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="240" viewBox="0 0 400 240">
+  <defs>
+    <linearGradient id="gvi" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f472b6"/>
+      <stop offset="100%" style="stop-color:#db2777"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="240" fill="#0f172a"/>
+  <circle cx="200" cy="120" r="72" fill="url(#gvi)" opacity="0.95"/>
+  <text x="200" y="128" text-anchor="middle" fill="#fdf2f8" font-family="system-ui,sans-serif" font-size="20" font-weight="700">Iris Virginica</text>
+</svg>

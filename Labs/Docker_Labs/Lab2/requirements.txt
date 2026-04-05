@@ -1,5 +1,6 @@
-tensorflow==2.15.0
+# Pin TF to a version available on PyPI for current Python (e.g. 3.12+); Docker uses 3.10-slim.
+tensorflow>=2.20,<2.22
 scikit-learn
-keras
 Flask
 requests
+joblib

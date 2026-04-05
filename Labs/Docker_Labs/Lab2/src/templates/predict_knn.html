@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural Iris | AI Classifier</title>
+    <title>KNN Iris | Classifier</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #00f2ff; /* Cyber Cyan */
-            --secondary: #bd00ff; /* Neon Purple */
-            --bg-dark: #0f172a;
+            --primary: #00f2ff;
+            --secondary: #bd00ff;
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
@@ -27,7 +26,6 @@
             overflow-x: hidden;
         }
 
-        /* Ambient Background Glow */
         body::before {
             content: '';
             position: absolute;
@@ -65,7 +63,6 @@
             position: relative;
         }
 
-        /* Glass Card Effect */
         .glass-card {
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
@@ -84,14 +81,10 @@
             background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
             letter-spacing: 2px;
         }
 
-        .input-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
+        .input-group { margin-bottom: 1.5rem; position: relative; }
 
         label {
             display: block;
@@ -113,7 +106,7 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 1rem;
             transition: all 0.3s ease;
-            box-sizing: border-box; /* Fixes padding width issue */
+            box-sizing: border-box;
         }
 
         input[type="number"]:focus {
@@ -145,11 +138,6 @@
             box-shadow: 0 10px 20px rgba(0, 242, 255, 0.3);
         }
 
-        button.submit-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Prediction Result Area */
         .result-container {
             margin-top: 20px;
             text-align: center;
@@ -157,7 +145,7 @@
             transition: all 0.5s ease;
             opacity: 0;
             transform: translateY(20px);
-            display: none; /* Hidden by default */
+            display: none;
         }
 
         .result-container.active {
@@ -175,7 +163,6 @@
             color: var(--primary);
             font-family: 'Orbitron', sans-serif;
             margin-bottom: 15px;
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
         }
 
         .flower-card {
@@ -198,7 +185,6 @@
             100% { transform: translate(20px, 20px); }
         }
 
-        /* Loading Spinner */
         .spinner {
             display: none;
             width: 24px;
@@ -218,40 +204,35 @@
 
     <div class="container">
         <div class="glass-card">
-            <h1>NEURAL IRIS</h1>
+            <h1>KNN IRIS</h1>
             
             <form id="predictionForm">
                 <div class="input-group">
                     <label for="sepal_length">Sepal Length</label>
                     <input type="number" id="sepal_length" step="0.01" placeholder="0.00" required>
                 </div>
-
                 <div class="input-group">
                     <label for="sepal_width">Sepal Width</label>
                     <input type="number" id="sepal_width" step="0.01" placeholder="0.00" required>
                 </div>
-
                 <div class="input-group">
                     <label for="petal_length">Petal Length</label>
                     <input type="number" id="petal_length" step="0.01" placeholder="0.00" required>
                 </div>
-
                 <div class="input-group">
                     <label for="petal_width">Petal Width</label>
                     <input type="number" id="petal_width" step="0.01" placeholder="0.00" required>
                 </div>
-
                 <button type="submit" class="submit-btn">
-                    <span id="btnText">ANALYZE</span>
+                    <span id="btnText">CLASSIFY (KNN)</span>
                     <div class="spinner" id="btnSpinner"></div>
                 </button>
             </form>
         </div>
 
         <div id="resultArea" class="glass-card result-container">
-            <div class="prediction-badge">CONFIDENCE: HIGH</div>
+            <div class="prediction-badge">MODEL: K-NEAREST NEIGHBORS</div>
             <h2 id="predictedClass" style="margin: 10px 0; color: #fff; font-family: 'Orbitron', sans-serif;"></h2>
-            
             <div class="flower-card">
                 <img src="" id="flowerImage" class="flower-image" alt="Iris Prediction"
                 data-setosa="{{ url_for('static', filename='setosa.svg') }}"
@@ -264,60 +245,40 @@
     <script>
         $(document).ready(function() {
             $('#predictionForm').on('submit', function(event) {
-                event.preventDefault(); 
-                
-                // UI Loading State
+                event.preventDefault();
                 var $btn = $('.submit-btn');
                 var $text = $('#btnText');
                 var $spinner = $('#btnSpinner');
-                
                 $text.hide();
                 $spinner.show();
                 $btn.css('opacity', '0.7');
-
                 var formData = {
                     'sepal_length': $('#sepal_length').val(),
                     'sepal_width': $('#sepal_width').val(),
                     'petal_length': $('#petal_length').val(),
                     'petal_width': $('#petal_width').val()
                 };
-
                 $.ajax({
                     type: 'POST',
-                    url: '/predict',
+                    url: '/predict_knn',
                     data: formData,
                     dataType: 'json',
                     encode: true
                 }).done(function(data) {
-                    
-                    // Update Text
                     $('#predictedClass').text(data.predicted_class.toUpperCase());
-                    
-                    // Update Image
                     var imageUrl = '';
                     switch (data.predicted_class) {
-                        case 'Setosa':
-                            imageUrl = $('#flowerImage').data('setosa');
-                            break;
-                        case 'Versicolor':
-                            imageUrl = $('#flowerImage').data('versicolor');
-                            break;
-                        case 'Virginica':
-                            imageUrl = $('#flowerImage').data('virginica');
-                            break;
+                        case 'Setosa': imageUrl = $('#flowerImage').data('setosa'); break;
+                        case 'Versicolor': imageUrl = $('#flowerImage').data('versicolor'); break;
+                        case 'Virginica': imageUrl = $('#flowerImage').data('virginica'); break;
                     }
                     $('#flowerImage').attr('src', imageUrl);
-
-                    // Show Result with animation
                     $('#resultArea').addClass('active');
-
-                    // Reset Button
                     $text.show();
                     $spinner.hide();
                     $btn.css('opacity', '1');
-
-                }).fail(function(data) {
-                    alert('SYSTEM ERROR: Neural Link Disconnected.');
+                }).fail(function() {
+                    alert('Request failed.');
                     $text.show();
                     $spinner.hide();
                     $btn.css('opacity', '1');

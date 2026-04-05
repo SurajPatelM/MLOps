@@ -1,2 +1,20 @@
-docker build -t app .
-docker run app
+# Run all commands from this folder (Lab2). From repo root: cd Labs/Docker_Labs/Lab2
+# If your shell already shows "Lab2" in the path, skip another cd into Labs/...
+# Quick check: ls Dockerfile  (should list the file)
+
+# Build (uses Dockerfile in this directory)
+docker build -t iris-app .
+
+# Run (publish container port 8080)
+docker run --rm -p 8080:8080 iris-app
+
+# Verify (in another terminal)
+curl -s http://localhost:8080/health
+curl -s "http://localhost:8080/predict?sepal_length=5.1&sepal_width=3.5&petal_length=1.4&petal_width=0.2"
+curl -s "http://localhost:8080/predict_knn?sepal_length=5.1&sepal_width=3.5&petal_length=1.4&petal_width=0.2"
+
+# Optional: HTML forms
+# Open http://localhost:8080/predict and http://localhost:8080/predict_knn
+
+# Docker Compose (train then serve)
+docker compose up --build

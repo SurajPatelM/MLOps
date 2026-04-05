@@ -1,5 +1,4 @@
 services:
-  # Service 1: Train the model
   model-training:
     image: python:3.10-slim
     container_name: ml_trainer
@@ -7,33 +6,30 @@ services:
     volumes:
       - ./src:/app/src
       - ./requirements.txt:/app/requirements.txt
-      - model_exchange:/exchange   # Shared volume mount
-    # Run training -> Copy result to shared folder
+      - model_exchange:/exchange
     command: >
-      sh -c "pip install -r requirements.txt &&
+      sh -c "pip install --no-cache-dir -r requirements.txt &&
              python src/model_training.py &&
-             cp my_model.keras /exchange/my_model.keras"
+             cp my_model.keras scaler.pkl knn_model.pkl /exchange/"
 
-  # Service 2: Serve the model
   serving:
     image: python:3.10-slim
     container_name: ml_serving
     working_dir: /app
     ports:
-      - "80:80"
+      - "8080:8080"
     volumes:
       - ./src:/app/src
       - ./requirements.txt:/app/requirements.txt
-      - ./src/templates:/app/templates
-      - ./src/statics:/app/statics
-      - model_exchange:/exchange   # Shared volume mount
+      - ./src/templates:/app/src/templates
+      - ./src/statics:/app/src/statics
+      - model_exchange:/exchange
     depends_on:
       model-training:
         condition: service_completed_successfully
-    # Copy result FROM shared folder -> Run server
     command: >
-      sh -c "pip install --trusted-host pypi.python.org -r requirements.txt &&
-             cp /exchange/my_model.keras ./my_model.keras &&
+      sh -c "pip install --no-cache-dir --trusted-host pypi.python.org -r requirements.txt &&
+             cp /exchange/my_model.keras /exchange/scaler.pkl /exchange/knn_model.pkl /app/ &&
              python src/main.py"
 
 volumes:
